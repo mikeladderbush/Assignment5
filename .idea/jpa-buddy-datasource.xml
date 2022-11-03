@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JpbDataSourceConfig">
+    <data-sources>
+      <data-source id="3df77fa1-c29b-4c64-931b-bd762f839a7a" name="AddressBookDB" url="jdbc:mysql://localhost/AddressBookDB?useSSL=false&amp;allowMultiQueries=true&amp;serverTimezone=UTC" driverClass="com.mysql.cj.jdbc.Driver" />
+    </data-sources>
+    <data-source-infos>
+      <data-source-info id="3df77fa1-c29b-4c64-931b-bd762f839a7a" persistence-unit-name="PersistenceController" />
+    </data-source-infos>
+  </component>
+</project>

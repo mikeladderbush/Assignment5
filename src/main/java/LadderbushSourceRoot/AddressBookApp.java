@@ -21,6 +21,9 @@ import javax.persistence.Persistence;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -107,14 +110,18 @@ public class AddressBookApp {
             
         }
 
-       // EntityManagerFactory emf = Persistence.createEntityManagerFactory("my-persistence-unit");
-       // EntityManager em = emf.createEntityManager();
-       // em.getTransaction().begin();
+        String url = "jdbc:mysql://localhost:3306/AddressBookDB";
+        String username = "sam";
+        String password = "Applesauce1!";
 
-       // em.persist(entry);
+        System.out.println("Connecting database...");
 
-       // em.getTransaction().commit();
-        // em.close();
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            System.out.println("Database connected!");
+        } catch (SQLException e) {
+            throw new IllegalStateException("Cannot connect the database!", e);
+        }
+
     }
 
 }

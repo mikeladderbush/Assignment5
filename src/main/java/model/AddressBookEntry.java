@@ -69,9 +69,25 @@ public class AddressBookEntry {
         
     }
 
+    public void setFirst_Name(){
+
+        this.first_name = first_name;
+
+    }
     public String getFirst_Name(){
 
         return recordData.get(FIRST_NAME);
 
     }
+
+
+    private String first_name;
+    private String last_name;
+    private String street_address;
+    private String additional_address;
+    private String city_or_town;
+    private String state;
+    private String zip_code;
+    private String email_address;
+    private String telephone;
 }
