@@ -2,9 +2,16 @@ package LadderbushSourceRoot;
 
 import LadderbushSourceRoot.storage.StorageProperties;
 import LadderbushSourceRoot.storage.StorageService;
+import model.Address;
 import model.AddressBookEntry;
 import model.FieldEnum;
 import model.MatchCriteriaEnum;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,10 +21,6 @@ import service.AddressBookDataService;
 import service.AddressBookDataServiceFactory;
 import service.MatchCriteria;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -48,7 +51,7 @@ public class AddressBookApp {
         };
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception, HibernateException {
 
         SpringApplication.run(AddressBookApp.class, args);
 
@@ -71,7 +74,7 @@ public class AddressBookApp {
         // object we put the three key value pairs into the hashmap.
 
         Map<FieldEnum, String> recordData = new HashMap<>();
-        recordData.put(FieldEnum.FIRST_NAME, "Mike");
+        recordData.put(FIRST_NAME, "Mike");
         recordData.put(FieldEnum.CITY, "Boston");
         recordData.put(FieldEnum.LAST_NAME, "Ladderbush");
         
@@ -110,17 +113,29 @@ public class AddressBookApp {
             
         }
 
-        String url = "jdbc:mysql://localhost:3306/AddressBookDB";
-        String username = "sam";
-        String password = "Applesauce1!";
-
         System.out.println("Connecting database...");
 
-        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+        try (Connection connection = DriverManager.getConnection(System.getenv("url"), System.getenv("username"), System.getenv("password"))) {
+
             System.out.println("Database connected!");
+
         } catch (SQLException e) {
+
             throw new IllegalStateException("Cannot connect the database!", e);
+
         }
+
+        Configuration configuration = new Configuration();
+        configuration.configure("hibernate.cfg.xml");
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+
+        Address addressToDB = new Address();
+        addressToDB.setFirst_name();
+
+        session.persist(addressToDB);
+        session.getTransaction().commit();
+        session.close();
 
     }
 
