@@ -2,6 +2,7 @@ package LadderbushSourceRoot;
 
 import LadderbushSourceRoot.storage.StorageProperties;
 import LadderbushSourceRoot.storage.StorageService;
+import jakarta.transaction.Transactional;
 import model.Address;
 import model.AddressBookEntry;
 import model.FieldEnum;
@@ -22,6 +23,7 @@ import service.AddressBookDataServiceFactory;
 import service.MatchCriteria;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -32,7 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static model.FieldEnum.FIRST_NAME;
+import static model.FieldEnum.*;
 import static model.MatchCriteriaEnum.EXACT;
 
 /**
@@ -40,6 +42,7 @@ import static model.MatchCriteriaEnum.EXACT;
  */
 
 @SpringBootApplication
+@Transactional
 @EnableConfigurationProperties(StorageProperties.class)
 public class AddressBookApp {
 
@@ -75,8 +78,12 @@ public class AddressBookApp {
 
         Map<FieldEnum, String> recordData = new HashMap<>();
         recordData.put(FIRST_NAME, "Mike");
-        recordData.put(FieldEnum.CITY, "Boston");
-        recordData.put(FieldEnum.LAST_NAME, "Ladderbush");
+        recordData.put(CITY, "Boston");
+        recordData.put(LAST_NAME, "Ladderbush");
+        recordData.put(FieldEnum.STREET_ADDRESS, "384 Washington Street");
+        recordData.put(FieldEnum.ZIP, "02135");
+        recordData.put(FieldEnum.STATE, "Massachusetts");
+        recordData.put(FieldEnum.PHONE, "9787708430");
         
         //An addressBookEntry object is created by passing our recordData object to a new entry.
         // Once this object "entry" is created we can use our writeEntry method on our previously
@@ -130,8 +137,7 @@ public class AddressBookApp {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 
-        Address addressToDB = new Address();
-        addressToDB.setFirst_name();
+        Address addressToDB = new Address(123123L, "Mike", "Ladderbush", " 384 Washington Street", "Brighton", "Massachusetts", "02135", "9787708430");
 
         session.persist(addressToDB);
         session.getTransaction().commit();

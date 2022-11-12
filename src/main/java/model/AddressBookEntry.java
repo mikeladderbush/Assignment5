@@ -2,28 +2,30 @@ package model;
 
 
 import LadderbushSourceRoot.DataUtils;
+import org.json.simple.parser.ParseException;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.xml.parsers.ParserConfigurationException;
-import org.json.simple.parser.ParseException;
-import org.xml.sax.SAXException;
-
-import static model.FieldEnum.FIRST_NAME;
 
 /**
  * This class holds a single address book entry e.g. a specific person or business.
  */
-@Entity
+
+
 public class AddressBookEntry {
 
-    private Map<FieldEnum, String> recordData;
 
-    @Id
-    private final String uniqueId;
+
+        private Map<FieldEnum, String> recordData;
+
+
+        private final String uniqueId;
+
+
 
     private AddressBookEntry() {
         
@@ -69,25 +71,4 @@ public class AddressBookEntry {
         
     }
 
-    public void setFirst_Name(){
-
-        this.first_name = first_name;
-
-    }
-    public String getFirst_Name(){
-
-        return recordData.get(FIRST_NAME);
-
-    }
-
-
-    private String first_name;
-    private String last_name;
-    private String street_address;
-    private String additional_address;
-    private String city_or_town;
-    private String state;
-    private String zip_code;
-    private String email_address;
-    private String telephone;
 }
